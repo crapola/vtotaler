@@ -30,13 +30,13 @@ def list_files(path:str)->tuple[str,...]:
 	"""
 	if os.path.isdir(path):
 		path+="/*"
-	return tuple(os.path.abspath(x) for x in glob.glob(path))
+	return tuple(os.path.abspath(x) for x in glob.glob(path) if not os.path.isdir(x))
 
 def scan(path:str)->None:
 	""" Scan files in <path>. """
 	assert VT_API_KEY,"VirusTotal API key not set."
 	with vt.Client(VT_API_KEY) as vtc:
-		files_list:tuple[str, ...]=list_files(path)
+		files_list:tuple[str,...]=list_files(path)
 		if not files_list:
 			print(f"Invalid path: {path}")
 			return
