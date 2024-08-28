@@ -82,5 +82,8 @@ def vt_scan_file(vt_client:vt.Client,file:BinaryIO)->vt.Object:
 	Send file for analysis.
 	Return <vt.Object analysis>.
 	"""
+	# Status seem to always go from queued to completed,
+	# so we can't really show progress.
+	print(f"Sending {file.name}",end="\r")
 	file.seek(0)
 	return vt_client.scan_file(file,True)
